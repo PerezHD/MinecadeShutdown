@@ -3,6 +3,8 @@ package me.ifamasssxd.shutdown;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,7 +23,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class MinecadeShutdown extends JavaPlugin implements Listener {
     boolean restarting = false;
     File config = new File(getDataFolder(), "config.yml");
-    String SERVER, LEAVE_MESSAGE, SERVER_RESTARTING;
+    String LEAVE_MESSAGE, SERVER_RESTARTING;
+    List<String> SERVERS;
 
     @Override
     public void onEnable() {
@@ -29,7 +32,7 @@ public class MinecadeShutdown extends JavaPlugin implements Listener {
             saveDefaultConfig();
         }
         Bukkit.getPluginManager().registerEvents(this, this);
-        SERVER = getConfig().getString("Server.ToKick");
+        SERVERS = getConfig().getStringList("Server.ToKick");
         LEAVE_MESSAGE = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Server.LeaveMessage"));
         SERVER_RESTARTING = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Server.Restarting"));
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -50,7 +53,7 @@ public class MinecadeShutdown extends JavaPlugin implements Listener {
                 DataOutputStream out = new DataOutputStream(bytes);
                 try {
                     out.writeUTF("Connect");
-                    out.writeUTF(SERVER);
+                    out.writeUTF(getRandomServer());
                     p.sendPluginMessage(this, "BungeeCord", bytes.toByteArray());
                     p.sendMessage(LEAVE_MESSAGE);
                 } catch (Exception ex) {
@@ -110,7 +113,7 @@ public class MinecadeShutdown extends JavaPlugin implements Listener {
             DataOutputStream out = new DataOutputStream(bytes);
             try {
                 out.writeUTF("Connect");
-                out.writeUTF(SERVER);
+                out.writeUTF(getRandomServer());
                 p.sendPluginMessage(this, "BungeeCord", bytes.toByteArray());
                 p.sendMessage(LEAVE_MESSAGE);
             } catch (Exception ex) {
@@ -119,5 +122,9 @@ public class MinecadeShutdown extends JavaPlugin implements Listener {
 
             bytes.reset();
         }
+    }
+
+    public String getRandomServer() {
+        return SERVERS.size() > 1 ? SERVERS.get(new Random().nextInt(SERVERS.size())) : SERVERS.get(0);
     }
 }
