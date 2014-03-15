@@ -45,7 +45,7 @@ public class MinecadeShutdown extends JavaPlugin implements Listener {
         restarting = true;
         disconnectAllPlayers();
         try {
-            ServerShutdownThread.sleep(1000 * 10);
+            ServerShutdownThread.sleep(1000 * 5);
         }catch(Exception e){
             
         }
@@ -86,7 +86,7 @@ public class MinecadeShutdown extends JavaPlugin implements Listener {
                 public void run() {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
                 }
-            }, 20 * 10);
+            }, 20 * 5);
         }
     }
 
@@ -109,7 +109,7 @@ public class MinecadeShutdown extends JavaPlugin implements Listener {
                 public void run() {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
                 }
-            }, 20 * 10);
+            }, 20 * 5);
         }
     }
 
