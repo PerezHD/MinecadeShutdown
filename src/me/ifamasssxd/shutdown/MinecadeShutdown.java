@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_7_R1.util.ServerShutdownThread;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,11 +40,18 @@ public class MinecadeShutdown extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onPluginDisable(PluginDisableEvent event) {
-            disconnectAllPlayers();
+    public void onPluginDisable(PluginDisableEvent event){
+        if(restarting)return;
+        restarting = true;
+        disconnectAllPlayers();
+        try {
+            ServerShutdownThread.sleep(1000 * 10);
+        }catch(Exception e){
+            
+        }
     }
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             if (label.equalsIgnoreCase("leave")) {
                 Player p = (Player) sender;
@@ -115,6 +123,7 @@ public class MinecadeShutdown extends JavaPlugin implements Listener {
                 p.sendPluginMessage(this, "BungeeCord", bytes.toByteArray());
                 p.sendMessage(LEAVE_MESSAGE);
             } catch (Exception ex) {
+                ex.printStackTrace();
                 getLogger().severe("Failed to send BungeeCord connection details!");
             }
 
