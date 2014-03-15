@@ -40,9 +40,7 @@ public class MinecadeShutdown extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onPluginDisable(PluginDisableEvent event) {
-        if (event.getPlugin().getName() == this.getName()) {
             disconnectAllPlayers();
-        }
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
