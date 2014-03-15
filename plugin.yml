@@ -1,0 +1,6 @@
+main: me.ifamasssxd.shutdown.MinecadeShutdown
+name: MinecadeShutdown
+version: 1.0
+commands:
+  leave:
+    description: Allows the player to disconnect back to the lobby.

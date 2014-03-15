@@ -1,0 +1,4 @@
+Server:
+  LeaveMessage: &cConnecting you to the lobby..
+  Restarting: &4The server is restarting!
+  ToKick: lobby1
