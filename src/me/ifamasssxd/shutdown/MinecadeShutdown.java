@@ -80,7 +80,7 @@ public class MinecadeShutdown extends JavaPlugin implements Listener {
                 public void run() {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
                 }
-            }, 20);
+            }, 20 * 10);
         }
     }
 
@@ -96,14 +96,14 @@ public class MinecadeShutdown extends JavaPlugin implements Listener {
         if (event.getCommand().contains("stop")) {
             if (restarting)
                 return;
-            event.setCommand(null);
+            event.setCommand("");
             restarting = true;
             disconnectAllPlayers();
             Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
                 public void run() {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
                 }
-            }, 20);
+            }, 20 * 10);
         }
     }
 
