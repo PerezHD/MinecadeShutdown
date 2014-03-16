@@ -76,7 +76,7 @@ public class MinecadeShutdown extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onPlayerSend(PlayerCommandPreprocessEvent event) {
-        if (event.getMessage().contains("stop")) {
+        if (event.getMessage().equalsIgnoreCase("stop")) {
             if (restarting)
                 return;
             event.setCancelled(true);
